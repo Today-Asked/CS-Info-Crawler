@@ -6,7 +6,8 @@ from linebot.models import *
 import school
 import os
 
-line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
+# line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
+line_bot_api = LineBotApi("nVT0SqckAuIDyzMmqV6+VYakAoTkeDYvC7sNZtA5HcaikdpwIVFNJWmyjOiEfAAPoqAE8ay0ZHH1lN7ZKWHFV5q0OLIgcmTxOa+8MKDnWt6a9lUrj5cfp7nTovXfbh5nLdCd8ZTL1ONf5+8N/edv6AdB04t89/1O/w1cDnyilFU=")
 
 # 設置日誌
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')
@@ -20,19 +21,20 @@ def send_line_message(message):
 
 def daily_task():
     logging.info("Starting daily scraping task")
-    NTU = school.NTU("https://www.csie.ntu.edu.tw/zh_tw/Announcements/Announcement9", "https://www.csie.ntu.edu.tw/zh_tw/Announcements/Announcement10")
-    NYCU = school.NYCU("https://www.cs.nycu.edu.tw/announcements/activity", "https://www.cs.nycu.edu.tw/announcements/corporation")
-    NCKU = school.NCKU("https://www.csie.ncku.edu.tw/zh-hant/news/speeches", "https://www.csie.ncku.edu.tw/zh-hant/news/jobs")
+    NTU_inst = school.NTU("https://www.csie.ntu.edu.tw/zh_tw/Announcements/Announcement9", "https://www.csie.ntu.edu.tw/zh_tw/Announcements/Announcement10")
+    NYCU_inst = school.NYCU("https://www.cs.nycu.edu.tw/announcements/activity", "https://www.cs.nycu.edu.tw/announcements/corporation")
+    NCKU_inst = school.NCKU("https://www.csie.ncku.edu.tw/zh-hant/news/speeches", "https://www.csie.ncku.edu.tw/zh-hant/news/jobs")
     
     all_announcements = []
-    all_announcements.extend(NTU.scrape_website(NTU.activity_url))
-    all_announcements.extend(NYCU.scrape_website(NYCU.activity_url))
-    all_announcements.extend(NCKU.scrape_website(NCKU.activity_url))
-    all_announcements.extend(NTU.scrape_website(NTU.recruit_url))
-    all_announcements.extend(NYCU.scrape_website(NYCU.recruit_url))
-    all_announcements.extend(NCKU.scrape_website(NCKU.recruit_url))
+    all_announcements.extend(NTU_inst.scrape_website(NTU_inst.activity_url))
+    all_announcements.extend(NYCU_inst.scrape_website(NYCU_inst.activity_url))
+    all_announcements.extend(NCKU_inst.scrape_website(NCKU_inst.activity_url))
+    all_announcements.extend(NTU_inst.scrape_website(NTU_inst.recruit_url))
+    all_announcements.extend(NYCU_inst.scrape_website(NYCU_inst.recruit_url))
+    all_announcements.extend(NCKU_inst.scrape_website(NCKU_inst.recruit_url))
 
     message = school.message_format(all_announcements, [NTU, NYCU, NCKU])
+    message = school.message_format(all_announcements, [NTU_inst, NYCU_inst, NCKU_inst])
     send_line_message(message)
 
 if __name__ == "__main__":
@@ -42,3 +44,4 @@ if __name__ == "__main__":
 
     if args.daily_task:
         daily_task()
+    

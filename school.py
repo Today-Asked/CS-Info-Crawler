@@ -75,9 +75,7 @@ class NYCU(School):
             results = []
             
             # Yesterday's date for filtering
-            # yesterday = datetime.now().date() - timedelta(days=1)
-            # yesterday is 3/19
-            yesterday = datetime.strptime('2025-03-19', '%Y-%m-%d').date()
+            yesterday = datetime.now().date() - timedelta(days=1)
             
             for announcement in announcements:
                 # Extract title
@@ -120,8 +118,8 @@ class NCKU(School):
             results = []
             
             # Yesterday's date for filtering
-            # yesterday = datetime.now().date() - timedelta(days=1)
-            yesterday = datetime.strptime('2025-03-18', '%Y-%m-%d').date()
+            yesterday = datetime.now().date() - timedelta(days=1)
+            # yesterday = datetime.strptime('2025-03-18', '%Y-%m-%d').date()
             
             for announcement in announcements:
                 # Extract title

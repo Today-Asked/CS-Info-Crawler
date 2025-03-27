@@ -91,18 +91,11 @@ class NYCU(School):
                 
                 # Filter announcements by date
                 if date and yesterday - timedelta(days=1) <= date <= yesterday:
-                    # Extract link
-                    # link = title_tag['href'] if title_tag and 'href' in title_tag.attrs else None
-                    
-                    # If the link is relative, convert it to an absolute URL
-                    # if link and link.startswith('/'):
-                    #     link = f"https://www.cs.nycu.edu.tw{link}"
                     
                     # Append the announcement to results
                     results.append({
                         'school': self.school_name,
                         'title': title,
-                        # 'link': link,
                         'date': date_str,
                         'type': 'activity' if url == self.activity_url else 'recruit'
                     })
@@ -142,18 +135,10 @@ class NCKU(School):
                 
                 # Filter announcements by date
                 if date and yesterday - timedelta(days=1) <= date <= yesterday:
-                    # Extract link
-                    link = title_tag['href'] if title_tag and 'href' in title_tag.attrs else None
-                    
-                    # If the link is relative, convert it to an absolute URL
-                    if link and link.startswith('/'):
-                        link = f"https://www.csie.ncku.edu.tw{link}"
-                    
                     # Append the announcement to results
                     results.append({
                         'school': self.school_name,
                         'title': title,
-                        'link': link,
                         'date': date_str,
                         'type': 'activity' if url == self.activity_url else 'recruit'
                     })
@@ -165,9 +150,9 @@ class NCKU(School):
             return []
         
 
-def message_format(all_announcements):
+def message_format(all_announcements, schools):
     message = "昨日活動訊息：\n"
-    for school in [NTU, NYCU, NCKU]:
+    for school in schools:
         message += f"【{school.school_name}】"
         if len([announcement for announcement in all_announcements if (announcement['school'] == school.school_name and announcement['type'] == 'activity')]) == 0:
             message += "無\n"
@@ -175,10 +160,11 @@ def message_format(all_announcements):
             message += '\n'
             for announcement in all_announcements:
                 if announcement['school'] == school.school_name and announcement['type'] == 'activity':
-                    message += f"- {announcement['title']}\n"
+                    message += f"🏆{announcement['title']}\n"
+        message += '官網：' + school.activity_url + '\n'
     message += "------------------------\n"
     message += "昨日徵才訊息：\n"
-    for school in [NTU, NYCU, NCKU]:
+    for school in schools:
         message += f"【{school.school_name}】"
         if len([announcement for announcement in all_announcements if (announcement['school'] == school.school_name and announcement['type'] == 'recruit')]) == 0:
             message += "無\n"
@@ -186,7 +172,8 @@ def message_format(all_announcements):
             message += '\n'
             for announcement in all_announcements:
                 if announcement['school'] == school.school_name and announcement['type'] == 'recruit':
-                    message += f"- {announcement['title']}\n"
+                    message += f"🪪{announcement['title']}\n"
+        message += '官網：' + school.recruit_url + '\n'
     return message
 
 if __name__ == "__main__":
@@ -202,5 +189,5 @@ if __name__ == "__main__":
     all_announcements.extend(NYCU.scrape_website(NYCU.recruit_url))
     all_announcements.extend(NCKU.scrape_website(NCKU.recruit_url))
 
-    message = message_format(all_announcements)
+    message = message_format(all_announcements, [NTU, NYCU, NCKU])
     print(message)

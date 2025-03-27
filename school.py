@@ -75,9 +75,7 @@ class NYCU(School):
             results = []
             
             # Yesterday's date for filtering
-            # yesterday = datetime.now().date() - timedelta(days=1)
-            # yesterday is 3/19
-            yesterday = datetime.strptime('2025-03-19', '%Y-%m-%d').date()
+            yesterday = datetime.now().date() - timedelta(days=1)
             
             for announcement in announcements:
                 # Extract title
@@ -127,8 +125,8 @@ class NCKU(School):
             results = []
             
             # Yesterday's date for filtering
-            # yesterday = datetime.now().date() - timedelta(days=1)
-            yesterday = datetime.strptime('2025-03-18', '%Y-%m-%d').date()
+            yesterday = datetime.now().date() - timedelta(days=1)
+            # yesterday = datetime.strptime('2025-03-18', '%Y-%m-%d').date()
             
             for announcement in announcements:
                 # Extract title
@@ -165,9 +163,9 @@ class NCKU(School):
             return []
         
 
-def message_format(all_announcements):
+def message_format(all_announcements, schools):
     message = "昨日活動訊息：\n"
-    for school in [NTU, NYCU, NCKU]:
+    for school in schools:
         message += f"【{school.school_name}】"
         if len([announcement for announcement in all_announcements if (announcement['school'] == school.school_name and announcement['type'] == 'activity')]) == 0:
             message += "無\n"
@@ -175,10 +173,11 @@ def message_format(all_announcements):
             message += '\n'
             for announcement in all_announcements:
                 if announcement['school'] == school.school_name and announcement['type'] == 'activity':
-                    message += f"- {announcement['title']}\n"
+                    message += f"⭐{announcement['title']}\n"
+        message += "看更多："+ school.activity_url + "\n"
     message += "------------------------\n"
     message += "昨日徵才訊息：\n"
-    for school in [NTU, NYCU, NCKU]:
+    for school in schools:
         message += f"【{school.school_name}】"
         if len([announcement for announcement in all_announcements if (announcement['school'] == school.school_name and announcement['type'] == 'recruit')]) == 0:
             message += "無\n"
@@ -186,7 +185,8 @@ def message_format(all_announcements):
             message += '\n'
             for announcement in all_announcements:
                 if announcement['school'] == school.school_name and announcement['type'] == 'recruit':
-                    message += f"- {announcement['title']}\n"
+                    message += f"⭐{announcement['title']}\n"
+        message += "看更多："+ school.recruit_url + "\n"
     return message
 
 if __name__ == "__main__":
@@ -202,5 +202,5 @@ if __name__ == "__main__":
     all_announcements.extend(NYCU.scrape_website(NYCU.recruit_url))
     all_announcements.extend(NCKU.scrape_website(NCKU.recruit_url))
 
-    message = message_format(all_announcements)
+    message = message_format(all_announcements, [NTU, NYCU, NCKU])
     print(message)

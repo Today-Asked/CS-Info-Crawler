@@ -6,8 +6,7 @@ from linebot.models import *
 import school
 import os
 
-# line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
-line_bot_api = LineBotApi("nVT0SqckAuIDyzMmqV6+VYakAoTkeDYvC7sNZtA5HcaikdpwIVFNJWmyjOiEfAAPoqAE8ay0ZHH1lN7ZKWHFV5q0OLIgcmTxOa+8MKDnWt6a9lUrj5cfp7nTovXfbh5nLdCd8ZTL1ONf5+8N/edv6AdB04t89/1O/w1cDnyilFU=")
+line_bot_api = LineBotApi(os.environ['CHANNEL_ACCESS_TOKEN'])
 
 # 設置日誌
 logging.basicConfig(level=logging.INFO, format='%(asctime)s:%(levelname)s:%(message)s')

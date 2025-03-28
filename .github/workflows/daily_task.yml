@@ -2,8 +2,8 @@ name: Daily Task
 
 on:
   schedule:
-    - cron: '0 5 * * *' # 每天 UTC 時間 1:00 (台灣時間 9:00)
-
+    - cron: '0 1 * * *' # 每天 UTC 時間 1:00 (台灣時間 9:00)
+  workflow_dispatch:
 jobs:
   daily-task:
     runs-on: ubuntu-latest

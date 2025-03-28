@@ -159,7 +159,7 @@ def message_format(all_announcements, schools):
             for announcement in all_announcements:
                 if announcement['school'] == school.school_name and announcement['type'] == 'activity':
                     message += f"🏆{announcement['title']}\n"
-        message += '官網：' + school.activity_url + '\n'
+        message += '官網：' + school.activity_url + '\n\n'
     message += "------------------------\n"
     message += "昨日徵才訊息：\n"
     for school in schools:
@@ -171,7 +171,7 @@ def message_format(all_announcements, schools):
             for announcement in all_announcements:
                 if announcement['school'] == school.school_name and announcement['type'] == 'recruit':
                     message += f"🪪{announcement['title']}\n"
-        message += '官網：' + school.recruit_url + '\n'
+        message += '官網：' + school.recruit_url + '\n\n'
     return message
 
 if __name__ == "__main__":

@@ -32,7 +32,6 @@ def daily_task():
     all_announcements.extend(NYCU_inst.scrape_website(NYCU_inst.recruit_url))
     all_announcements.extend(NCKU_inst.scrape_website(NCKU_inst.recruit_url))
 
-    message = school.message_format(all_announcements, [NTU, NYCU, NCKU])
     message = school.message_format(all_announcements, [NTU_inst, NYCU_inst, NCKU_inst])
     send_line_message(message)
 
